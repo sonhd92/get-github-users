@@ -10,9 +10,11 @@ import SwiftUI
 struct UserDetailsView: View {
     @StateObject private var viewModel: UserDetailsViewModel
     let username: String
+    let user: User
     
-    init(username: String, service: ServiceProtocol) {
+    init(username: String, user: User, service: ServiceProtocol) {
         self.username = username
+        self.user = user
         _viewModel = StateObject(wrappedValue: UserDetailsViewModel(service: service))
     }
 
@@ -20,22 +22,22 @@ struct UserDetailsView: View {
         ScrollView {
             if let details = viewModel.userDetails {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(details.name ?? "")
-                        .font(.title)
+                    UserRowView(user: user, location: details.location ?? "", isDetailScren: true)
+
+                    HStack {
+                        StatsView(type: .followers, value: details.followers)
+                        StatsView(type: .following, value: details.following)
+                    }
+                    .padding(.top, 10)
+                    
+                    Text("Bio:")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
                     
                     if let bio = details.bio {
                         Text(bio)
                             .font(.body)
-                    }
-                    
-                    HStack {
-                        StatsView(title: "Followers", value: details.followers)
-                        StatsView(title: "Following", value: details.following)
-                    }
-                    
-                    if let location = details.location {
-                        Text("Location: \(location)")
-                            .font(.caption)
+                            .padding(.top, 16)
                     }
                 }
                 .padding()
@@ -52,6 +54,6 @@ struct UserDetailsView: View {
 
 #Preview {
     NavigationView {
-        UserDetailsView(username: "SonHoang", service: MockServiceManager())
+        UserDetailsView(username: "SonHoang", user: User.mockUsers[0], service: MockServiceManager())
     }
 }

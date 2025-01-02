@@ -37,7 +37,6 @@ class UserViewModel: ObservableObject {
         
         do {
             let users = try await services.fetchUser(since: currentPage * perPage, perPage: perPage)
-            print("GET USER: \(users)")
             user.append(contentsOf: users)
             currentPage += 1
         } catch {

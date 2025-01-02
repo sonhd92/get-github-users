@@ -6,25 +6,20 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct UserRowView: View {
     let user: User
-    let name: String = ""
-    let location: String = ""
-    let avatarUrl: String = ""
+    let location: String
     
     var isDetailScren = false
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: user.avatarUrl)) { avatar in
-                avatar.resizable()
-                    .scaledToFill()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 80, height: 80)
-            .clipShape(Circle())
+            KFImage(URL(string: user.avatarUrl))
+                .resizable()
+                .frame(width: 80, height: 80)
+                .clipShape(Circle())
             
             VStack(alignment: .leading) {
                 Text(user.login)
@@ -37,10 +32,15 @@ struct UserRowView: View {
                         Image("location-on", bundle: .main)
                             .resizable()
                             .frame(width: 16, height: 16)
-                    }
+                            .padding(.top, 4)
                         
-                    Text("[\(user.url)](user.url)")
-                        .font(.caption)
+                        Text(location)
+                            .font(.caption)
+                            .padding(.top, 4)
+                    }else {
+                        Text("[\(user.url)](user.url)")
+                            .font(.caption)
+                    }
                 }
             }
         }
@@ -52,5 +52,5 @@ struct UserRowView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    UserRowView(user: User.mockUsers[0])
+    UserRowView(user: User.mockUsers[0], location: "")
 }

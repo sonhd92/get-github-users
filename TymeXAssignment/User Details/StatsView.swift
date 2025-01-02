@@ -7,23 +7,45 @@
 
 import SwiftUI
 
+enum StatsType {
+    case followers
+    case following
+    
+    var icon: String {
+        switch self {
+        case .followers:
+            return "followers"
+        case .following:
+            return "following"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .followers:
+            return "Followers"
+        case .following:
+            return "Following"
+        }
+    }
+}
+
 struct StatsView: View {
-    let title: String
+    let type: StatsType
     let value: Int
     
     var body: some View {
-        VStack {
-            Image("followers", bundle: .main)
+        VStack(alignment: .center) {
+            Image(type.icon, bundle: .main)
                 .resizable()
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-                .background(Color(uiColor: UIColor.lightGray.withAlphaComponent(0.5)))
+                .frame(width: 60, height: 60)
+                .background(Color(uiColor: UIColor.lightGray.withAlphaComponent(0.3)))
                 .clipped()
                 .clipShape(Circle())
             
             Text("\(value)")
                 .font(.headline)
-            Text(title)
+            Text(type.title)
                 .font(.caption)
         }
         .frame(maxWidth: .infinity)
@@ -31,5 +53,5 @@ struct StatsView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    StatsView(title: "Title", value: 10)
+    StatsView(type: .followers, value: 10)
 }
