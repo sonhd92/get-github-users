@@ -40,6 +40,7 @@ struct UserListView: View {
                 }
                 .padding(.vertical)
             }
+            .background(Color(UIColor.lightGray.withAlphaComponent(0.4)))
             .navigationTitle("Github Users")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: User.self) { user in

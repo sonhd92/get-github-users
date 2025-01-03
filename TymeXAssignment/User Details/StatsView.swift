@@ -36,12 +36,17 @@ struct StatsView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            Image(type.icon, bundle: .main)
-                .resizable()
-                .frame(width: 60, height: 60)
-                .background(Color(uiColor: UIColor.lightGray.withAlphaComponent(0.3)))
-                .clipped()
-                .clipShape(Circle())
+            ZStack {
+                Circle()
+                    .frame(width: 60, height: 60)
+                    .foregroundStyle(Color(uiColor: UIColor.lightGray.withAlphaComponent(0.3)))
+                
+                Image(type.icon, bundle: .main)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipped()
+                    .clipShape(Circle())
+            }
             
             Text("\(value)")
                 .font(.headline)

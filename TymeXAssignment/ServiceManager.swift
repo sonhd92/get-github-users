@@ -27,11 +27,23 @@ class ServiceManager: ServiceProtocol {
 }
 
 class MockServiceManager: ServiceProtocol {
+    var user: [User] = []
+    var userDetails: UserDetails?
+    var error: Error?
+    
     func fetchUser(since: Int, perPage: Int) async throws -> [User] {
-        return User.mockUsers
+        if let error = error {
+            throw error
+        }
+        
+        return user
     }
     
     func fetchUserDetails(username: String) async throws -> UserDetails {
-        return UserDetails.mockUserDetails
+        if let error = error {
+            throw error
+        }
+        
+        return userDetails ?? UserDetails(name: "Test User", bio: "This is test bio", followers: 100, following: 10, publicRepos: 2, location: "Vietnam")
     }
 }
